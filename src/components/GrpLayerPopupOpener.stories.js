@@ -5,7 +5,6 @@ import GrpLayerPopupOpener from './GrpLayerPopupOpener.vue';
 export default {
   title: 'GrpLayerPopupOpener',
   component: GrpLayerPopupOpener,
-  excludeStories: /.*Data$/,
 };
 
 const Template = (args) => ({
