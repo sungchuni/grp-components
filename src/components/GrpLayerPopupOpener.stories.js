@@ -1,7 +1,6 @@
-import GrpLayerPopup, { PopupPosition } from './GrpLayerPopup.vue';
 import { contentHtmlData } from './GrpLayerPopup.stories.js';
+import GrpLayerPopup from './GrpLayerPopup.vue';
 import GrpLayerPopupOpener from './GrpLayerPopupOpener.vue';
-import { ref } from '@vue/composition-api';
 
 export default {
   title: 'GrpLayerPopupOpener',
@@ -11,19 +10,6 @@ export default {
 
 const Template = (args) => ({
   components: { GrpLayerPopup, GrpLayerPopupOpener },
-  setup() {
-    const handleToggle = (pointerEvent) => {
-      popupPosition.value =
-        (pointerEvent &&
-          new PopupPosition({
-            x: pointerEvent.clientX,
-            y: pointerEvent.clientY,
-          })) ||
-        null;
-    };
-    const popupPosition = ref(null);
-    return { handleToggle, popupPosition };
-  },
   template: `
   <GrpLayerPopupOpener v-bind="$props">
     <template #text>답변하고 싶은 질문하는 방법</template>

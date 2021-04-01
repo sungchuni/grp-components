@@ -4,9 +4,6 @@ import GrpLayerPopup from './GrpLayerPopup.vue';
 export default {
   title: 'GrpLayerPopup',
   component: GrpLayerPopup,
-  argTypes: {
-    popupBackgroundColor: { control: 'color' },
-  },
   excludeStories: /.*Data$/,
 };
 

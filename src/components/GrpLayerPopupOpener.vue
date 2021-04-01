@@ -1,14 +1,16 @@
 <template>
   <div class="opener">
-    <button class="opener" @click="handleToggle($event, true)">
+    <button ref="buttonRef" @click="handleToggle(true)">
       <slot name="text"></slot>
     </button>
     <GrpLayerPopup
+      v-if="isShown"
       ref="popupRef"
+      class="popup"
       :popup-position="popupPosition"
-      @close="handleToggle($event, false)"
+      @close="handleToggle(false)"
     >
-      <slot v-if="isShown" name="popup"></slot>
+      <slot name="popup"></slot>
     </GrpLayerPopup>
   </div>
 </template>
@@ -21,24 +23,51 @@ export default {
   components: {
     GrpLayerPopup,
   },
-  setup() {
+  props: {
+    popupGap: {
+      type: Number,
+      default: 6,
+    },
+  },
+  setup(props) {
+    const buttonRef = ref(null);
     const isShown = ref(false);
     const popupPosition = ref(null);
     const popupRef = ref(null);
-    const handleToggle = async (event, shown) => {
+    const handleToggle = async (shown) => {
       isShown.value = shown;
-      const { clientX, clientY } = event;
-      const { width: windowWidth, height: windowHeight } = window.visualViewport;
       if (shown) {
         await nextTick();
-        const { width, height } = popupRef.value.$el.getBoundingClientRect();
+        const { popupGap } = props;
+        const { width: windowWidth, height: windowHeight } = window.visualViewport;
+        const {
+          top: buttonTop,
+          left: buttonLeft,
+          width: buttonWidth,
+          height: buttonHeight,
+        } = buttonRef.value.getBoundingClientRect();
+        const {
+          width: popupWidth,
+          height: popupHeight,
+        } = popupRef.value.$el.getBoundingClientRect();
         popupPosition.value = new PopupPosition({
-          x: clientX < windowWidth * .5 ? clientX : clientX - width,
-          y: clientY < windowHeight * .5 ? clientY : clientY - height,
+          x: buttonLeft < windowWidth * .5 ? 0 : (popupWidth - buttonWidth) * -1,
+          y: buttonTop < windowHeight * .5 ? buttonHeight + popupGap : (popupHeight + popupGap) * -1,
         });
       }
     };
-    return { handleToggle, isShown, popupPosition, popupRef };
+    return { buttonRef, handleToggle, isShown, popupPosition, popupRef };
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.opener {
+  position: relative;
+  width: max-content;
+  height: max-content;
+}
+.popup {
+  position: absolute;
+}
+</style>
