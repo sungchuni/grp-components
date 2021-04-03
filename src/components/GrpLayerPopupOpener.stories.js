@@ -11,7 +11,7 @@ const Template = (args) => ({
   components: { GrpLayerPopup, GrpLayerPopupOpener },
   template: `
   <GrpLayerPopupOpener v-bind="$props">
-    <template #text>답변하고 싶은 질문하는 방법</template>
+    <template #button>답변하고 싶은 질문하는 방법</template>
     <template #popup>${args.slotContent || ''}</template>
   </GrpLayerPopupOpener>`,
 });

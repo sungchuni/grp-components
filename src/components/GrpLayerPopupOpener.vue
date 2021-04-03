@@ -1,8 +1,8 @@
 <template>
   <div class="opener">
-    <button ref="buttonRef" @click="handleToggle(true)">
-      <slot name="text"></slot>
-    </button>
+    <div ref="buttonRef" @click="handleToggle(true)">
+      <slot name="button"></slot>
+    </div>
     <GrpLayerPopup
       v-if="isShown"
       ref="popupRef"
