@@ -1,3 +1,12 @@
 {
-  "include": ["src/**/*"]
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": [
+    "__tests__/**/*",
+    "src/**/*"
+  ]
 }
