@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import GrpLayerPopup, { PopupPosition } from './GrpLayerPopup.vue';
 import { nextTick, ref } from '@vue/composition-api';
+import GrpLayerPopup, { PopupPosition } from './GrpLayerPopup.vue';
 export default {
   name: 'GrpLayerPopupOpener',
   components: {

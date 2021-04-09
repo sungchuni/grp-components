@@ -1,5 +1,5 @@
-import GrpToast from './GrpToast.vue';
 import { ref } from '@vue/composition-api';
+import GrpToast from './GrpToast.vue';
 
 export default {
   title: 'GrpToast',

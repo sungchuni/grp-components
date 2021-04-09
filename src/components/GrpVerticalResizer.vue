@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import { debounce, throttle } from '../services/lazy.js';
 import { onMounted, reactive, ref } from '@vue/composition-api';
+import { debounce, throttle } from '../services/lazy.js';
 export default {
   name: 'GrpVerticalResizer',
   props: {
