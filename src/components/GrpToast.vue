@@ -40,7 +40,7 @@ export default {
     },
     toastTime: {
       type: Number,
-      default: 50000,
+      default: 5000,
     },
   },
   emits: ['destroy'],
