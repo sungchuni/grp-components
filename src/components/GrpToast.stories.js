@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions';
 import { ref } from '@vue/composition-api';
 import GrpToast from './GrpToast.vue';
 
@@ -58,7 +59,13 @@ const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   setup() {
     const destroyed = ref(false);
-    const handleDestroy = () => destroyed.value = true;
+    const handleDestroy = (() => {
+      const handlerFunction = action('destroyed');
+      return () => {
+        destroyed.value = true;
+        handlerFunction();
+      };
+    })();
     return { destroyed, handleDestroy };
   },
   template: `
@@ -67,8 +74,51 @@ const Template = (args, { argTypes }) => ({
   </GrpToast>`,
 });
 
-export const Default = Object.assign(Template.bind({}), {
+export const TopCenter = Object.assign(Template.bind({}), {
   args: {
     slotContent: contentHtmlData,
+    toastPosition: 'top center',
+  },
+});
+
+export const TopRight = Object.assign(Template.bind({}), {
+  args: {
+    slotContent: contentHtmlData,
+    toastPosition: 'top right',
+  },
+});
+
+export const TopLeft = Object.assign(Template.bind({}), {
+  args: {
+    slotContent: contentHtmlData,
+    toastPosition: 'top left',
+  },
+});
+
+export const BottomCenter = Object.assign(Template.bind({}), {
+  args: {
+    slotContent: contentHtmlData,
+    toastPosition: 'bottom center',
+  },
+});
+
+export const BottomRight = Object.assign(Template.bind({}), {
+  args: {
+    slotContent: contentHtmlData,
+    toastPosition: 'bottom right',
+  },
+});
+
+export const BottomLeft = Object.assign(Template.bind({}), {
+  args: {
+    slotContent: contentHtmlData,
+    toastPosition: 'bottom left',
+  },
+});
+
+export const WrongPosition = Object.assign(Template.bind({}), {
+  args: {
+    slotContent: contentHtmlData,
+    toastPosition: '',
   },
 });
