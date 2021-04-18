@@ -17,16 +17,24 @@
       },
       "extends": ["plugin:jest/recommended"],
       "files": ["**/*.@(spec|test).{j,t}s", "spec/**/*"],
-      "plugins": ["jest"]
+      "plugins": ["jest"],
+      "settings": {
+        "import/resolver": {
+          "alias": {
+            "extensions": [".js", ".json", ".jsx", ".ts", ".tsx", ".vue", ".wasm"],
+            "map": [["@", "./src"]]
+          }
+        }
+      }
     }
   ],
   "parser": "vue-eslint-parser",
   "parserOptions": {
     "ecmaVersion": 12,
-    "parser": "@babel/eslint-parser",
+    "parser": "@typescript-eslint/parser",
     "sourceType": "module"
   },
-  "plugins": ["import", "vue"],
+  "plugins": ["@typescript-eslint", "import", "vue"],
   "rules": {
     "array-bracket-newline": ["error"],
     "array-bracket-spacing": ["error"],
@@ -43,8 +51,7 @@
       {
         "alphabetize": { "order": "asc" },
         "groups": [
-          "builtin",
-          "external",
+          ["builtin", "external"],
           ["index", "internal", "parent", "sibling", "unknown"],
           "object"
         ]
@@ -86,6 +93,13 @@
     "space-unary-ops": ["error"],
     "vue/array-bracket-spacing": ["error"],
     "vue/arrow-spacing": ["error"],
+    "vue/html-closing-bracket-newline": [
+      "error",
+      {
+        "singleline": "never",
+        "multiline": "never"
+      }
+    ],
     "vue/comma-dangle": ["error", "always-multiline"],
     "vue/comma-spacing": ["error"],
     "vue/func-call-spacing": ["error"],
@@ -106,8 +120,7 @@
   "settings": {
     "import/resolver": {
       "alias": {
-        "extensions": [".js", ".json", ".jsx", ".ts", ".tsx", ".vue", ".wasm"],
-        "map": [["@", "./app/javascript/src"]]
+        "extensions": [".js", ".json", ".jsx", ".ts", ".tsx", ".vue", ".wasm"]
       }
     }
   }
