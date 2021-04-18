@@ -1,13 +1,17 @@
 <template>
-  <div class="toast" :style="toastStyle" @click="handleClick">
-    <slot></slot>
+  <div
+    :style="toastStyle"
+    class="toast"
+    :class="{ destroy }"
+    @click="handleClick">
+    <slot>fallback message</slot>
   </div>
 </template>
 
 <script>
 import { computed, onMounted, ref } from '@vue/composition-api';
 
-const TOAST_POSITION_SET = new Set([
+export const TOAST_POSITION_SET = new Set([
   'bottom center',
   'bottom left',
   'bottom right',
@@ -21,81 +25,88 @@ export default {
   props: {
     toastBackgroundColor: {
       type: String,
-      default: '#ffffff',
+      default: '#0078ff',
     },
     toastBorderRadius: {
-      type: Number,
-      default: 8,
-    },
-    toastMargin: {
-      type: Number,
-      default: 8,
-    },
-    toastPosition: {
       type: String,
-      default: 'top center',
-      validator(value) {
-        return TOAST_POSITION_SET.has(value);
-      },
+      default: '2px',
+    },
+    toastColor: {
+      type: String,
+      default: '#ffffff',
+    },
+    toastId: {
+      type: Number,
+      required: true,
     },
     toastTime: {
       type: Number,
       default: 5000,
     },
+    toastTransitionDuration: {
+      type: Number,
+      default: 200,
+    },
   },
   emits: ['destroy'],
   setup(props, { emit }) {
-    const { toastTime } = props;
-    const timeoutId = ref(null);
+    const { toastId, toastTime, toastTransitionDuration } = props;
+    const destroy = ref(false);
+    const destroyTimeoutId = ref(null);
+    const destroyedTimeoutId = ref(null);
     const toastStyle = computed(() => {
       const {
         toastBackgroundColor: backgroundColor,
-        toastBorderRadius,
-        toastMargin,
-        toastPosition,
+        toastBorderRadius: borderRadius,
+        toastColor: color,
       } = props;
-      const borderRadius = `${toastBorderRadius}px`;
-      const positionValue = `${toastMargin}px`;
-      const verticalPosition = {
-        ...(toastPosition.includes('bottom') && { bottom: positionValue }),
-        ...(toastPosition.includes('top') && { top: positionValue }),
-      };
-      const horizontalPosition = {
-        ...(toastPosition.includes('center') && {
-          left: '50%',
-          transform: 'translate(-50%)',
-        }),
-        ...(toastPosition.includes('left') && { left: positionValue }),
-        ...(toastPosition.includes('right') && { right: positionValue }),
-      };
+      const transitionDuration = `${toastTransitionDuration}ms`;
+      const animationDuration = `${toastTransitionDuration}ms`;
       return {
         backgroundColor,
         borderRadius,
-        ...verticalPosition,
-        ...horizontalPosition,
+        color,
+        transitionDuration,
+        animationDuration,
       };
     });
     const handleClick = () => {
-      clearTimeout(timeoutId.value);
-      emit('destroy');
+      clearTimeout(destroyTimeoutId.value);
+      clearTimeout(destroyedTimeoutId.value);
+      emit('destroyed', toastId);
     };
     onMounted(() => {
-      timeoutId.value = setTimeout(() => {
-        emit('destroy');
-      }, toastTime);
+      destroyTimeoutId.value = setTimeout(() => destroy.value = true, toastTime - toastTransitionDuration);
+      destroyedTimeoutId.value = setTimeout(() => emit('destroyed', toastId), toastTime);
     });
-    return { handleClick, toastStyle };
+    return { destroy, handleClick, toastStyle };
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@keyframes grp-toast-transition {
+  from {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
 .toast {
-  position: fixed;
+  position: relative;
   top: auto;
-  right: auto;
   bottom: auto;
-  left: auto;
-  border-radius: 8px;
+  padding: 14px 15px;
+  animation-name: grp-toast-transition;
+  animation-timing-function: ease-in-out;
+}
+.destroy {
+  opacity: 0;
+  transition-delay: 0ms;
+  transition-property: all;
+  transition-timing-function: ease-in-out;
 }
 </style>

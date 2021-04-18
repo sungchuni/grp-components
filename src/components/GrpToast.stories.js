@@ -1,5 +1,5 @@
-import { action } from '@storybook/addon-actions';
-import { ref } from '@vue/composition-api';
+import { reactive } from '@vue/composition-api';
+import { appendToast } from '../services/toast';
 import GrpToast from './GrpToast.vue';
 
 export default {
@@ -11,16 +11,13 @@ export default {
         type: 'color',
       },
     },
-    toastBorderRadius: {
+    toastColor: {
       control: {
-        type: 'number',
-        min: 0,
+        type: 'color',
       },
     },
-    toastMargin: {
-      control: {
-        type: 'number',
-      },
+    toastId: {
+      type: null,
     },
     toastPosition: {
       control: {
@@ -34,6 +31,7 @@ export default {
           'top right',
         ],
       },
+      defaultValue: 'top center',
     },
     toastTime: {
       control: {
@@ -45,80 +43,29 @@ export default {
   },
 };
 
-const contentHtmlData = `<div style="padding: 8px">
-  <p>i am the message</p>
-  <ul>
-    <li>i am the item 1</li>
-    <li>i am the item 2</li>
-    <li>i am the item 3</li>
-  </ul>
-</div>`;
+const messageData = '토스트 메시지 입니다.';
 
 const Template = (args, { argTypes }) => ({
   components: { GrpToast },
   props: Object.keys(argTypes),
-  setup() {
-    const destroyed = ref(false);
-    const handleDestroy = (() => {
-      const handlerFunction = action('destroyed');
-      return () => {
-        destroyed.value = true;
-        handlerFunction();
-      };
-    })();
-    return { destroyed, handleDestroy };
+  setup(props) {
+    const model = reactive({});
+    const handleClick = () => {
+      const { message } = model;
+      appendToast(message || args.message, props);
+    };
+    return { handleClick, model };
   },
-  template: `
-  <GrpToast v-if="!destroyed" v-bind="$props" @destroy="handleDestroy">
-    ${args.slotContent}
-  </GrpToast>`,
+  template: `<form @submit.prevent>
+    <input v-model.trim="model.message" type="string" name="toast-message" placeholder="toast message">
+    <button @click="handleClick($props)">
+      invoke toast
+    </button>
+  </form>`,
 });
 
-export const TopCenter = Object.assign(Template.bind({}), {
+export const Default = Object.assign(Template.bind({}), {
   args: {
-    slotContent: contentHtmlData,
-    toastPosition: 'top center',
-  },
-});
-
-export const TopRight = Object.assign(Template.bind({}), {
-  args: {
-    slotContent: contentHtmlData,
-    toastPosition: 'top right',
-  },
-});
-
-export const TopLeft = Object.assign(Template.bind({}), {
-  args: {
-    slotContent: contentHtmlData,
-    toastPosition: 'top left',
-  },
-});
-
-export const BottomCenter = Object.assign(Template.bind({}), {
-  args: {
-    slotContent: contentHtmlData,
-    toastPosition: 'bottom center',
-  },
-});
-
-export const BottomRight = Object.assign(Template.bind({}), {
-  args: {
-    slotContent: contentHtmlData,
-    toastPosition: 'bottom right',
-  },
-});
-
-export const BottomLeft = Object.assign(Template.bind({}), {
-  args: {
-    slotContent: contentHtmlData,
-    toastPosition: 'bottom left',
-  },
-});
-
-export const WrongPosition = Object.assign(Template.bind({}), {
-  args: {
-    slotContent: contentHtmlData,
-    toastPosition: '',
+    message: messageData,
   },
 });
