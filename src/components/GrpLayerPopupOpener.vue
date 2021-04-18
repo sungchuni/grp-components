@@ -8,8 +8,7 @@
       ref="popupRef"
       class="popup"
       :popup-position="popupPosition"
-      @close="handleToggle(false)"
-    >
+      @close="handleToggle(false)">
       <slot name="popup"></slot>
     </GrpLayerPopup>
   </div>
