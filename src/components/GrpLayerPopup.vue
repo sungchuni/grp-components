@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$slots.default" ref="popupRef" class="popup" :style="popupStyle">
+  <div v-if="$slots.default" ref="popupRef" :class="$style.popup" :style="popupStyle">
     <slot></slot>
   </div>
 </template>
@@ -63,15 +63,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" module>
 .popup {
   width: max-content;
   border: 1px solid #d7e2eb;
   border-radius: 4px;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.05);
-}
-.close {
-  cursor: pointer;
-  float: right;
 }
 </style>

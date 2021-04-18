@@ -1,9 +1,9 @@
 <template>
-  <div ref="resizerRef" class="resizer" :style="resizerStyle">
-    <div class="content">
+  <div ref="resizerRef" :class="$style.resizer" :style="resizerStyle">
+    <div :class="$style.content">
       <slot></slot>
     </div>
-    <div class="handle" @pointerdown="handlePointerdown">
+    <div :class="$style.handle" @pointerdown="handlePointerdown">
       ...
     </div>
   </div>
@@ -76,7 +76,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" module>
 .resizer {
   display: flex;
   box-sizing: border-box;

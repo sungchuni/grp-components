@@ -1,8 +1,7 @@
 <template>
   <div
     :style="toastStyle"
-    class="toast"
-    :class="{ destroy }"
+    :class="[$style.toast, { [$style.destroy]: destroy }]"
     @click="handleClick">
     <slot>fallback message</slot>
   </div>
@@ -84,7 +83,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" module>
 @keyframes grp-toast-transition {
   from {
     opacity: 0;

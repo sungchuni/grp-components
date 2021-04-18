@@ -1,12 +1,12 @@
 <template>
-  <div class="opener">
+  <div :class="$style.opener">
     <div ref="buttonRef" @click="handleToggle(true)">
       <slot name="button"></slot>
     </div>
     <GrpLayerPopup
       v-if="isShown"
       ref="popupRef"
-      class="popup"
+      :class="$style.popup"
       :popup-position="popupPosition"
       @close="handleToggle(false)">
       <slot name="popup"></slot>
@@ -60,7 +60,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" module>
 .opener {
   position: relative;
   width: max-content;
