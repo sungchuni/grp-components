@@ -1,5 +1,7 @@
 name: 'chromatic deployment'
-on: push
+on:
+  push:
+    branches: [ master ]
 jobs:
   chromatic-deployment:
     runs-on: ubuntu-latest
