@@ -38,20 +38,20 @@ const toastQue = ref<ToastQueItem[]>([]);
 
 export function appendToast(
   message: string,
-  appendToastprops?: AppendToastProps,
+  appendToastProps?: AppendToastProps,
 ): ComponentInstance | null {
   const id = performance.now();
   const {
     toastMargin = '1rem',
-    toastPosition = 'top center',
     ...props
-  } = appendToastprops || {};
+  } = appendToastProps || {};
   toastQue.value.push({ id, message, props });
   if (!toastContainer.value) {
     toastContainer.value = new Vue({
       name: 'ToastContainer',
       components: { GrpToast },
       setup() {
+        const { toastPosition = 'top center' } = props;
         const hasBottom = toastPosition.includes('bottom');
         const hasCenter = toastPosition.includes('center');
         const hasRight = toastPosition.includes('right');
