@@ -1,6 +1,6 @@
 <template>
   <div
-    ref="toast"
+    ref="toastRef"
     :style="toastStyle"
     :class="[$style.toast, { [$style.destroy]: destroy }]"
     @click="handleClick">
@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { computed, getCurrentInstance, onMounted, ref } from '@vue/composition-api';
+import { computed, onMounted, ref, unref } from '@vue/composition-api';
 import { TOAST_POSITION_SET } from '../constants';
 
 export default {
@@ -59,6 +59,7 @@ export default {
     const destroy = ref(false);
     const destroyTimeoutId = ref(null);
     const destroyedTimeoutId = ref(null);
+    const toastRef = ref(null);
     const toastStyle = computed(() => {
       const {
         toastBackgroundColor: backgroundColor,
@@ -74,14 +75,12 @@ export default {
       };
     });
     const handleClick = () => {
-      clearTimeout(destroyTimeoutId.value);
-      clearTimeout(destroyedTimeoutId.value);
+      clearTimeout(unref(destroyTimeoutId));
+      clearTimeout(unref(destroyedTimeoutId));
       emit('destroyed', toastId);
     };
     onMounted(() => {
-      const currentInstance = getCurrentInstance();
-      const { toast: toastElement } = currentInstance.refs;
-      toastElement.animate({
+      unref(toastRef).animate({
         transform: [
           `translateY(${hasBottom ? '' : '-'}50%`,
           'none',
@@ -91,7 +90,7 @@ export default {
       destroyTimeoutId.value = setTimeout(() => destroy.value = true, toastTime - toastTransitionDuration);
       destroyedTimeoutId.value = setTimeout(() => emit('destroyed', toastId), toastTime);
     });
-    return { destroy, handleClick, toastStyle };
+    return { destroy, handleClick, toastRef, toastStyle };
   },
 };
 </script>

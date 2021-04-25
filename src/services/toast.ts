@@ -8,30 +8,6 @@ import {
 import Vue from 'vue';
 import GrpToast from '../components/GrpToast.vue';
 
-type ToastPosition =
-  | 'bottom center'
-  | 'bottom left'
-  | 'bottom right'
-  | 'top center'
-  | 'top left'
-  | 'top right';
-
-interface AppendToastProps {
-  toastBackgroundColor?: string;
-  toastBorderRadius?: string;
-  toastColor?: string;
-  toastMargin?: string;
-  toastPosition?: ToastPosition;
-  toastTime?: number;
-  toastTransitionDuration?: number;
-}
-
-interface ToastQueItem {
-  id: number;
-  message: string;
-  props?: AppendToastProps;
-}
-
 const toastContainerId = '__TOAST_CONTAINER__';
 const toastContainer = ref<ComponentInstance | null>(null);
 const toastQue = ref<ToastQueItem[]>([]);
@@ -85,7 +61,7 @@ export function appendToast(
         const handleDestroyed = (toastId: number) => {
           toastQue.value = unref(toastQue).filter(({ id }) => id !== toastId);
         };
-        const getToasts = () => toastQue.value.map(({ id, message, props }) => h(
+        const getToasts = () => unref(toastQue).map(({ id, message, props }) => h(
           'GrpToast',
           {
             style: {
@@ -118,4 +94,28 @@ export function appendToast(
     document.body.appendChild(toastContainer.value.$el);
   }
   return unref(toastContainer);
+}
+
+type ToastPosition =
+  | 'bottom center'
+  | 'bottom left'
+  | 'bottom right'
+  | 'top center'
+  | 'top left'
+  | 'top right';
+
+interface AppendToastProps {
+  toastBackgroundColor?: string;
+  toastBorderRadius?: string;
+  toastColor?: string;
+  toastMargin?: string;
+  toastPosition?: ToastPosition;
+  toastTime?: number;
+  toastTransitionDuration?: number;
+}
+
+interface ToastQueItem {
+  id: number;
+  message: string;
+  props?: AppendToastProps;
 }
