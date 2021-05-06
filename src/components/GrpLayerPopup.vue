@@ -117,6 +117,7 @@ export default defineComponent({
   position: absolute;
   overflow: auto;
   width: max-content;
+  box-sizing: border-box;
   align-content: flex-start;
   padding: 16px 20px;
   border: 1px solid #d7e2eb;
