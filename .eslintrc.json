@@ -41,6 +41,7 @@
     "array-element-newline": ["error", "consistent"],
     "arrow-parens": ["error", "always"],
     "arrow-spacing": ["error"],
+    "brace-style": ["error"],
     "comma-dangle": ["error", "always-multiline"],
     "comma-spacing": ["error"],
     "func-call-spacing": ["error"],
@@ -61,6 +62,10 @@
     "key-spacing": ["error"],
     "keyword-spacing": ["error"],
     "linebreak-style": ["error", "unix"],
+    "no-multiple-empty-lines": [
+      "error",
+      { "max": 1, "maxEOF": 0, "maxBOF": 0 }
+    ],
     "no-multi-spaces": ["error"],
     "no-param-reassign": [
       "error",
@@ -73,6 +78,7 @@
     "no-var": ["error"],
     "no-whitespace-before-property": ["error"],
     "object-curly-spacing": ["error", "always"],
+    "object-curly-newline": ["error", { "consistent": true, "multiline": true }],
     "object-property-newline": [
       "error",
       { "allowAllPropertiesOnSameLine": true }
@@ -89,6 +95,7 @@
       "error",
       { "anonymous": "always", "named": "never" }
     ],
+    "space-in-parens": ["error"],
     "space-infix-ops": ["error"],
     "space-unary-ops": ["error"],
     "vue/array-bracket-spacing": ["error"],
@@ -114,6 +121,48 @@
     "vue/max-attributes-per-line": ["off"],
     "vue/no-v-html": ["off"],
     "vue/object-curly-spacing": ["error", "always"],
+    "vue/order-in-components": [
+      "warn",
+      {
+        "order": [
+          "el",
+          "name",
+          "key",
+          "parent",
+          "functional",
+          ["delimiters", "comments"],
+          ["components", "directives", "filters"],
+          "extends",
+          "mixins",
+          ["provide", "inject"],
+          "ROUTER_GUARDS",
+          "layout",
+          "middleware",
+          "validate",
+          "scrollToTop",
+          "transition",
+          "loading",
+          "inheritAttrs",
+          "model",
+          ["props", "propsData"],
+          "emits",
+          "metaInfo",
+          "validations",
+          "setup",
+          "asyncData",
+          "data",
+          "fetch",
+          "head",
+          "computed",
+          "watch",
+          "watchQuery",
+          "LIFECYCLE_HOOKS",
+          "methods",
+          ["template", "render"],
+          "renderError"
+        ]
+      }
+    ],
     "vue/space-infix-ops": ["error"],
     "vue/space-unary-ops": ["error"]
   },
