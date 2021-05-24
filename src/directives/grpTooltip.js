@@ -1,5 +1,5 @@
 const ARROW_SIZE = 6;
-const GAP = ARROW_SIZE + 4;
+const GAP = ARROW_SIZE + 2;
 
 export default {
   bind,
@@ -80,25 +80,25 @@ function tooltipHandler(pointerEvent, { message, position }) {
         bottom: 0,
         left: '50%',
         borderColor: 'black transparent transparent transparent',
-        transform: 'translateX(-50%) translateY(100%)',
+        transform: 'translateX(-50%) translateY(calc(100% - 1px))',
       } ||
       position === 'right' && {
         top: '50%',
         left: 0,
         borderColor: 'transparent black transparent transparent',
-        transform: 'translateX(-100%) translateY(-50%)',
+        transform: 'translateX(calc(-100% + 1px)) translateY(-50%)',
       } ||
       position === 'bottom' && {
         top: 0,
         left: '50%',
         borderColor: 'transparent transparent black transparent',
-        transform: 'translateX(-50%) translateY(-100%)',
+        transform: 'translateX(-50%) translateY(calc(-100% + 1px))',
       } ||
       position === 'left' && {
         top: '50%',
         right: 0,
         borderColor: 'transparent transparent transparent black',
-        transform: 'translateX(100%) translateY(-50%)',
+        transform: 'translateX(calc(100% - 1px)) translateY(-50%)',
       }
     ),
   });
