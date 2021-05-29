@@ -1,3 +1,4 @@
+const ANIMATION_DURATION = 100;
 const ARROW_SIZE = 6;
 const GAP = ARROW_SIZE + 2;
 
@@ -105,8 +106,20 @@ function tooltipHandler(pointerEvent, { message, position }) {
     ),
   });
   currentTarget.appendChild(container);
+  container.animate([
+    { opacity: 0 },
+    { opacity: 1 },
+  ], {
+    duration: ANIMATION_DURATION,
+  });
   return {
-    destroy() {
+    async destroy() {
+      await new Promise((resolve) => container.animate([
+        { opacity: 1 },
+        { opacity: 0 },
+      ], {
+        duration: ANIMATION_DURATION,
+      }).onfinish = resolve);
       Object.assign(currentTarget.style, {
         cursor: null,
         position: null,
