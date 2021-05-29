@@ -43,10 +43,12 @@ function tooltipHandler(pointerEvent, { message, position }) {
   });
   Object.assign(container.style, {
     position: 'absolute',
+    zIndex: '1110',
     padding: '.25rem .5rem',
     backgroundColor: 'black',
     borderRadius: '.25rem',
     color: 'white',
+    fontSize: '14px',
     whiteSpace: 'nowrap',
     ...(
       position === 'top' && {
@@ -106,6 +108,7 @@ function tooltipHandler(pointerEvent, { message, position }) {
   return {
     destroy() {
       Object.assign(currentTarget.style, {
+        cursor: null,
         position: null,
       });
       container.remove();
